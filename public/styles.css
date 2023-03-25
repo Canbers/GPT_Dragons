@@ -51,7 +51,7 @@ h2 {
   flex: 1;
   margin-right: 8px;
   padding: 8px;
-  border: none;
+  border: 1px solid black;
   border-radius: 4px;
   background-color: #f8f8f8;
   box-sizing: border-box;
