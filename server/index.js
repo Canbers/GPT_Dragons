@@ -22,9 +22,21 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const app = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+const express = require('express');
+const app = express();
+const apiRoutes = require('./routes/api');
+
+// Use the API routes
+app.use('/api', apiRoutes);
+
+// Start the server
+const PORT = process.env.PORT || 3001;
+firebaseApp.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 const inputField = document.getElementById('input');
 const submitBtn = document.getElementById('submit-btn');
