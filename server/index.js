@@ -20,10 +20,8 @@ const firebaseConfig = {
   measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
-firebase.initializeApp(firebaseConfig);
-
 const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getFirestore(firebaseApp);
 
 const express = require('express');
 const app = express();
@@ -34,7 +32,7 @@ app.use('/api', apiRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3001;
-firebaseApp.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
