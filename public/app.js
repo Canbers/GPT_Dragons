@@ -15,6 +15,7 @@ async function handlePlayerInput(inputText) {
   const inputParts = inputText.split(':');
   const commandType = inputParts[0].trim();
   const commandContent = inputParts.slice(1).join(':').trim();
+  
 
   // System message to set the behavior of the AI
   const systemMessage = "You are the game master for a Dungeons and Dragons style game.";
@@ -46,12 +47,13 @@ async function handlePlayerInput(inputText) {
   const aiResponse = response.data.choices[0].message.content.trim();
 
   // Display player input and AI response in chat section
-  const chatSection = document.getElementById('chat-section');
-  chatSection.innerHTML += `<p>Player: ${inputText}</p>`;
-  chatSection.innerHTML += `<p>GM: ${aiResponse}</p>`;
+  const gameLog = document.getElementById('game-log');
+  gameLog.innerHTML += `<p>Player: ${inputText}</p>`;
+  gameLog.innerHTML += `<p>GM: ${aiResponse}</p>`;
 
   // Scroll to the bottom of the chat section
-  chatSection.scrollTop = chatSection.scrollHeight;
+  gameLog.scrollTop = gameLog.scrollHeight;
+
 }
 
 const inputField = document.getElementById('chat-box');
@@ -67,13 +69,18 @@ inputField.addEventListener('keydown', (event) => {
 submitBtn.addEventListener('click', submitAction);
 
 async function submitAction() {
-  const inputText = inputField.value.trim();
+  try {
+    const inputText = inputField.value.trim();
 
-  if (inputText) {
-    await handlePlayerInput(inputText);
-    inputField.value = '';
+    if (inputText) {
+      await handlePlayerInput(inputText);
+      inputField.value = '';
+    }
+  } catch (error) {
+    console.error('Error while submitting action:', error);
   }
 }
+
 
 
 
