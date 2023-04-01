@@ -52,14 +52,27 @@ async function handlePlayerInput(inputText) {
   chatSection.scrollTop = chatSection.scrollHeight;
 }
 
-// Add event listener for chat input box
-const chatBox = document.getElementById('chat-box');
-chatBox.addEventListener('keydown', async (event) => {
+const inputField = document.getElementById('chat-box');
+const submitBtn = document.getElementById('submit-btn');
+
+inputField.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
-    await handlePlayerInput(chatBox.value);
-    chatBox.value = ''; // Clear the input box
+    event.preventDefault();
+    submitAction();
   }
 });
+
+submitBtn.addEventListener('click', submitAction);
+
+function submitAction() {
+  const inputText = inputField.value.trim();
+
+  if (inputText) {
+    handlePlayerInput(inputText);
+    inputField.value = '';
+  }
+}
+
 
 // Start the game by generating storylines and initializing a new game
 startGameWithStoryline();
