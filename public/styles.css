@@ -37,23 +37,74 @@ h2 {
 }
 
 #game-log {
+  height: calc(100% - 60px);
   overflow-y: auto;
-  flex: 1;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
   background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+#game-log .message {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+#game-log .message .author {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+#game-log .message .text {
+  background-color: #e8e8e8;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: relative;
+}
+
+#game-log .message .text .timestamp {
+  font-size: 10px;
+  color: #777;
+  position: absolute;
+  top: 0;
+  right: 5px;
+}
+
+#chat-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 #chat-box {
-  width: 100%;
-  padding: 10px;
+  flex: 1;
+  height: 40px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 10px;
   outline: none;
 }
 
-#chat-box:focus {
-  border-color: #007bff;
+#submit-btn {
+  height: 40px;
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 0 15px;
+}
+
+#submit-btn:hover {
+  background-color: #45a049;
 }
