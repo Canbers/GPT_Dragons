@@ -1,55 +1,65 @@
-// app.js
+// Import required modules
+import OpenAI from 'openai';
+import {initializeApp} from 'firebase/app';
+import {getFirestore, collection, addDoc, updateDoc, doc} from 'firebase/firestore';
+import {startNewGame, generateStorylineOptions, startGameWithStoryline} from './server';
 
-const inputField = document.getElementById('input');
-const submitBtn = document.getElementById('submit-btn');
+// OpenAI API Client
+const openai = new OpenAI('<YOUR_API_KEY>');
 
-inputField.addEventListener('keydown', (event) => {
-  console.log('keydown event triggered'); // Add console log here
+// Function to handle player input
+async function handlePlayerInput(inputText) {
+  // Determine the type of command based on the prefix (e.g., "action:", "say:", "askgm:")
+  const inputParts = inputText.split(':');
+  const commandType = inputParts[0].trim();
+  const commandContent = inputParts.slice(1).join(':').trim();
+
+  // System message to set the behavior of the AI
+  const systemMessage = "You are the game master for a Dungeons and Dragons style game.";
+
+  // User message based on the commandType
+  let userMessage = "";
+  if (commandType.toLowerCase() === 'action') {
+    userMessage = `A player character is attempting to do this action: ${commandContent}. Narrate the outcome of the action.`;
+  } else if (commandType.toLowerCase() === 'say') {
+    userMessage = `A player character said: "${commandContent}". Respond as the game master.`;
+  } else if (commandType.toLowerCase() === 'askgm') {
+    userMessage = `A player asked: "${commandContent}". Respond as the game master.`;
+  } else {
+    userMessage = inputText;
+  }
+
+  // Call the OpenAI GPT API
+  const response = await openai.createCompletion({
+    model: 'gpt-3.5-turbo', // You can also use 'gpt-4' here
+    messages: [
+      { role: 'system', content: systemMessage },
+      { role: 'user', content: userMessage }
+    ],
+    max_tokens: 150,
+    temperature: 0.7
+  });
+
+  // Extract AI's response
+  const aiResponse = response.data.choices[0].message.content.trim();
+
+  // Display player input and AI response in chat section
+  const chatSection = document.getElementById('chat-section');
+  chatSection.innerHTML += `<p>Player: ${inputText}</p>`;
+  chatSection.innerHTML += `<p>GM: ${aiResponse}</p>`;
+
+  // Scroll to the bottom of the chat section
+  chatSection.scrollTop = chatSection.scrollHeight;
+}
+
+// Add event listener for chat input box
+const chatBox = document.getElementById('chat-box');
+chatBox.addEventListener('keydown', async (event) => {
   if (event.key === 'Enter') {
-    event.preventDefault();
-    submitAction();
+    await handlePlayerInput(chatBox.value);
+    chatBox.value = ''; // Clear the input box
   }
 });
 
-submitBtn.addEventListener('click', submitAction);
-
-function submitAction() {
-  console.log('submitAction function called'); // Add console log here
-  const inputText = inputField.value.trim();
-
-  if (inputText) {
-    // Add the input text to the game log
-    const gameLog = document.getElementById('game-log');
-    const newEntry = document.createElement('div');
-    newEntry.classList.add('message');
-    newEntry.classList.add('player1'); // Change this to the actual player's class
-
-    const messageHeader = document.createElement('div');
-    messageHeader.classList.add('message-header');
-    newEntry.appendChild(messageHeader);
-
-    const timestamp = document.createElement('span');
-    timestamp.classList.add('message-timestamp');
-    timestamp.textContent = new Date().toLocaleTimeString();
-    messageHeader.appendChild(timestamp);
-
-    const playerName = document.createElement('span');
-    playerName.textContent = 'Player1'; // Change this to the actual player name
-    messageHeader.appendChild(playerName);
-
-    const messageContent = document.createElement('span');
-    messageContent.classList.add('message-content');
-    messageContent.textContent = inputText;
-    newEntry.appendChild(messageContent);
-
-    gameLog.appendChild(newEntry);
-
-    // Scroll the game log to the bottom to show the most recent text
-    gameLog.scrollTop = gameLog.scrollHeight;
-
-    // Clear the input field
-    inputField.value = '';
-
-    // TODO: Process the input text, update the game state, and synchronize with other players
-  }
-}
+// Start the game by generating storylines and initializing a new game
+startGameWithStoryline();
