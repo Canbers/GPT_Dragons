@@ -64,14 +64,15 @@ inputField.addEventListener('keydown', (event) => {
 
 submitBtn.addEventListener('click', submitAction);
 
-function submitAction() {
+async function submitAction() {
   const inputText = inputField.value.trim();
 
   if (inputText) {
-    handlePlayerInput(inputText);
+    await handlePlayerInput(inputText);
     inputField.value = '';
   }
 }
+
 
 
 // Start the game by generating storylines and initializing a new game
