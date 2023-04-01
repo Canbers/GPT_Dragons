@@ -1,14 +1,3 @@
-  // Import required modules
-  import OpenAI from 'openai';
-  import {initializeApp} from 'firebase/app';
-  import {getFirestore, collection, addDoc, updateDoc, doc} from 'firebase/firestore';
-  import {startNewGame, generateStorylineOptions, startGameWithStoryline} from './server';
-
-document.addEventListener("DOMContentLoaded", () => {
-
-// OpenAI API Client
-const openai = new OpenAI('<YOUR_API_KEY>');
-
 // Function to handle player input
 async function handlePlayerInput(inputText) {
   // Determine the type of command based on the prefix (e.g., "action:", "say:", "askgm:")
@@ -32,58 +21,67 @@ async function handlePlayerInput(inputText) {
     userMessage = inputText;
   }
 
-  // Call the OpenAI GPT API
-  const response = await openai.createCompletion({
-    model: 'gpt-3.5-turbo', // You can also use 'gpt-4' here
-    messages: [
-      { role: 'system', content: systemMessage },
-      { role: 'user', content: userMessage }
-    ],
-    max_tokens: 150,
-    temperature: 0.7
-  });
-
-  // Extract AI's response
-  const aiResponse = response.data.choices[0].message.content.trim();
-
   // Display player input and AI response in chat section
   const gameLog = document.getElementById('game-log');
-  gameLog.innerHTML += `<p>Player: ${inputText}</p>`;
-  gameLog.innerHTML += `<p>GM: ${aiResponse}</p>`;
+  const timestamp = new Date().toLocaleTimeString();
+
+  gameLog.innerHTML += `
+    <div class="message">
+      <div class="author">Player:</div>
+      <div class="text">
+        ${inputText}
+        <span class="timestamp">${timestamp}</span>
+      </div>
+    </div>
+  `;
+
+  // const aiResponseTimestamp = new Date().toLocaleTimeString();
+
+  // gameLog.innerHTML += `
+  //   <div class="message">
+  //     <div class="author">GM:</div>
+  //     <div class="text">
+  //       ${aiResponse}
+  //       <span class="timestamp">${aiResponseTimestamp}</span>
+  //     </div>
+  //   </div>
+  // `;
+
 
   // Scroll to the bottom of the chat section
   gameLog.scrollTop = gameLog.scrollHeight;
 
 }
 
-const inputField = document.getElementById('chat-box');
-const submitBtn = document.getElementById('submit-btn');
+document.addEventListener('DOMContentLoaded', () => {
+  const inputField = document.getElementById('chat-box');
+  const submitBtn = document.getElementById('submit-btn');
 
-inputField.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    submitAction();
-  }
+  inputField.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      submitAction();
+    }
+  });
+  
+
+  submitBtn.addEventListener('click', submitAction);
+
+  async function submitAction() {
+    try {
+      if (inputField.value.trim()) {
+        await handlePlayerInput(inputField.value.trim());
+        inputField.value = '';
+      }
+    } catch (error) {
+      console.error('Error while submitting action:', error);
+    }
+  }  
 });
 
-submitBtn.addEventListener('click', submitAction);
-
-async function submitAction() {
-  try {
-    const inputText = inputField.value.trim();
-
-    if (inputText) {
-      await handlePlayerInput(inputText);
-      inputField.value = '';
-    }
-  } catch (error) {
-    console.error('Error while submitting action:', error);
-  }
-}
 
 
 
 
 // Start the game by generating storylines and initializing a new game
 startGameWithStoryline();
-});

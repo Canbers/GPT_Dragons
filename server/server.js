@@ -95,3 +95,16 @@ async function generateStorylineOptions() {
   }
 }
 
+  // Call the OpenAI GPT API
+  const response = await openai.createCompletion({
+    model: 'gpt-3.5-turbo', // You can also use 'gpt-4' here
+    messages: [
+      { role: 'system', content: systemMessage },
+      { role: 'user', content: userMessage }
+    ],
+    max_tokens: 150,
+    temperature: 0.7
+  });
+  
+  // Extract AI's response
+  const aiResponse = response.data.choices[0].message.content.trim();

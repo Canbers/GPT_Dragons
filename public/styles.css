@@ -19,9 +19,8 @@ body {
 }
 
 #character-sheet,
-#chat-section,
-#map-section {
-  flex: 1;
+#game-info-map-container,
+#chat-section {
   margin: 10px;
   padding: 20px;
   border: 1px solid #ccc;
@@ -29,6 +28,34 @@ body {
   background-color: #f9f9f9;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+#character-sheet,
+#game-info-map-container {
+  flex: 1 1 25%;
+}
+
+#chat-section {
+  flex: 1 1 50%;
+}
+
+#game-info-map-container {
+  display: flex;
+  flex-direction: column;
+}
+
+#game-info,
+#map-section {
+  flex: 1;
+  margin: 0;
+  margin-top: 10px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
 
 h2 {
   margin-bottom: 20px;
@@ -38,7 +65,7 @@ h2 {
 
 #game-log {
   flex: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 10px;
   background-color: #f8f8f8;
   border: 1px solid #ccc;
@@ -82,12 +109,14 @@ h2 {
 
 #chat-box {
   flex: 1;
-  height: 40px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
   padding: 5px 10px;
   margin-right: 10px;
-  outline: none;
+  margin-bottom: 10px;
+  resize: none; /* Disable manual resizing of the input field */
+  overflow-wrap: break-word; /* Wrap text when it reaches the end of the line */
+  overflow-y: auto; /* Enable scrolling when the input field expands vertically */
+  max-height: 150px; /* Set a maximum height for the input field */
+  width: 90%;
 }
 
 #submit-btn {
