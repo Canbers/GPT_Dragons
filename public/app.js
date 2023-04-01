@@ -1,8 +1,10 @@
-// Import required modules
-import OpenAI from 'openai';
-import {initializeApp} from 'firebase/app';
-import {getFirestore, collection, addDoc, updateDoc, doc} from 'firebase/firestore';
-import {startNewGame, generateStorylineOptions, startGameWithStoryline} from './server';
+  // Import required modules
+  import OpenAI from 'openai';
+  import {initializeApp} from 'firebase/app';
+  import {getFirestore, collection, addDoc, updateDoc, doc} from 'firebase/firestore';
+  import {startNewGame, generateStorylineOptions, startGameWithStoryline} from './server';
+
+document.addEventListener("DOMContentLoaded", () => {
 
 // OpenAI API Client
 const openai = new OpenAI('<YOUR_API_KEY>');
@@ -77,3 +79,4 @@ async function submitAction() {
 
 // Start the game by generating storylines and initializing a new game
 startGameWithStoryline();
+});
