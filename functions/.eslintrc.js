@@ -15,6 +15,11 @@ module.exports = {
     'prefer-arrow-callback': 'error',
     'quotes': ['error', 'double', { 'allowTemplateLiterals': true }],
     'linebreak-style': ['error', process.platform === 'win32' ? 'windows' : 'unix'],
+    'indent': ['error', 2, { 'SwitchCase': 1 }],
+    'max-len': ['error', { 'code': 80, 'ignoreComments': true, 'ignoreUrls': true }],
+    'no-console': 'warn',
+    'no-var': 'error',
+    'comma-dangle': ['error', 'never'],
   },
   overrides: [
     {
