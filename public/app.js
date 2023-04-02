@@ -79,9 +79,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }  
 });
 
+fetch('/start-game', {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
 
 
+const startGameBtn = document.getElementById('start-game-btn');
 
+startGameBtn.addEventListener('click', startGame);
 
-// Start the game by generating storylines and initializing a new game
-startGameWithStoryline();
+async function startGame() {
+  try {
+    const response = await fetch('/start-game', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });    
+    if (!response.ok) {
+      const text = await response.text();
+      console.error('Server response:', text);
+      throw new Error('An error occurred while fetching scenarios.');
+    }
+    const scenarios = await response.json();
+    displayScenarios(scenarios);
+  } catch (error) {
+    console.error('Error fetching scenarios:', error);
+  }
+}
