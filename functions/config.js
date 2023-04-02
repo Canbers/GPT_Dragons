@@ -1,3 +1,4 @@
+const functions = require('firebase-functions');
 let firebaseConfig = {};
 
 if (process.env.NODE_ENV !== "production") {
