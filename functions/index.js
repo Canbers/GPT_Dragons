@@ -1,6 +1,6 @@
 // Import required modules and packages
 const firebase = require('firebase/app');
-const firebaseConfig = require("./config");
+const firebaseConfig = require('./config');
 const { getFirestore, collection, addDoc, doc, updateDoc } = require('firebase/firestore');
 const openai = require('openai');
 const express = require('express');
@@ -90,7 +90,7 @@ async function startGameWithStoryline() {
 async function generateStorylineOptions() {
     try {
       const systemMessage =
-        "You are in the position of game master for a Dungeons and Dragons style game. The game is about to start and you want to give your players a choice of what kind of story they want to play. Generate creative, original, and unique Dungeons & Dragons scenarios that provide an intriguing hook and are enticing to players. Do not add 'scenario' or a number as a prefix.";
+        'You are in the position of game master for a Dungeons and Dragons style game. The game is about to start and you want to give your players a choice of what kind of story they want to play. Generate creative, original, and unique Dungeons & Dragons scenarios that provide an intriguing hook and are enticing to players. Do not add "scenario" or a number as a prefix.';
       const prompt = 'Generate 3 scenarios for a Dungeons & Dragons game.';
   
       const response = await openai.Completion.create({

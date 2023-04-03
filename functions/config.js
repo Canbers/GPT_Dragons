@@ -1,9 +1,9 @@
 const functions = require('firebase-functions');
 let firebaseConfig = {};
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== 'production') {
   // Import dotenv for development environment
-  const dotenv = require("dotenv");
+  const dotenv = require('dotenv');
   dotenv.config();
 
   firebaseConfig = {
