@@ -1,7 +1,7 @@
 // Import required modules and packages
 const firebase = require('firebase/app');
 const firebaseConfig = require('./config');
-const {getFirestore, collection, addDoc} = require('firebase/firestore');
+const {getFirestore} = require('firebase/firestore');
 const openai = require('openai');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -15,7 +15,7 @@ exports.api = functions.https.onRequest(app);
 
 
 firebase.initializeApp(firebaseConfig);
-const db = getFirestore();
+// const db = getFirestore();
 
 // Set up express middleware
 app.use(bodyParser.json());
