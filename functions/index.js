@@ -1,7 +1,6 @@
 // Import required modules and packages
 const firebase = require('firebase/app');
 const firebaseConfig = require('./config');
-const {getFirestore} = require('firebase/firestore');
 const openai = require('openai');
 const express = require('express');
 const bodyParser = require('body-parser');
