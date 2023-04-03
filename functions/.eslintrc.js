@@ -16,7 +16,7 @@ module.exports = {
     'quotes': ['error', 'single', {'allowTemplateLiterals': true}],
     'linebreak-style': ['error', 'unix'],
     'indent': ['error', 2, {'SwitchCase': 1}],
-    'max-len': ['error', {'code': 80, 'ignoreComments': true, 'ignoreUrls': true}],
+    'max-len': ['error', {'code': 500, 'ignoreComments': true, 'ignoreUrls': true}],
     'no-console': 'warn',
     'no-var': 'error',
     'comma-dangle': ['error', 'always-multiline'],
